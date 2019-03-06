@@ -18,6 +18,8 @@ async function getBooks() {
             return cleanData(item);
         });
 
+        console.log(data);
+
         saveData(data);
         return data;
     }

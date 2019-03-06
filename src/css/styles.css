@@ -7,6 +7,10 @@ body {
     padding: 0;
 }
 
+main {
+    margin: 50px;
+}
+
 /* HOMEPAGE */
 /* .logo {
     position: fixed;
@@ -20,13 +24,13 @@ body {
 .search {
     display: flex;
     justify-content: center;
-    padding: 150px 0;
+    padding: 50px 0;
 }
 
 .search__input {
     flex-basis: 50%;
 
-    padding: 40px;
+    padding: 20px;
     font-size: 18px;
     border: none;
 }
@@ -36,12 +40,49 @@ body {
 
     border: none;
     background-color: rgb(170, 165, 159);
-    padding: 40px;
+    padding: 25px;
     font-size: 18px;
     color: white;
 }
 
-.books {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+.section-books {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.book-result {
+
+}
+
+.book-result__image {
+
+}
+
+.book-result__image img {
+
+}
+
+/* Loader */
+.loader {
+    z-index: 1;
+    position: fixed;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+.loader svg {
+    height: 5.5rem;
+    width: 5.5rem;
+    animation: rotate 1.5s infinite linear;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

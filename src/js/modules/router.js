@@ -1,4 +1,4 @@
-import { renderHomepage, renderOverviewpage } from './render.js';
+import { renderHomepage } from './render.js';
 import { handleData } from './data.js';
 
 export default function setupRoutes() {

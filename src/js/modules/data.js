@@ -25,8 +25,7 @@ function cleanData(item) {
         },
         format: item.format ? item.format : undefined,
         identifiers: {
-            isbnId: item.identifiers ? item.identifiers["isbn-id"] : undefined,
-            ppnId: item.identifiers ? item.identifiers["ppn-id"] : undefined
+            isbnId: item.identifiers ? item.identifiers[1]["isbn-id"] : undefined
         },
         images: {
             small: item.images ? item.images[0] : undefined,
