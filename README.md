@@ -7,3 +7,17 @@ Het project vindt plaats bij de Centrale OBA. Maandagochtend is om 10.00 uur de 
 We verzamelen maandagochtend om 09.45 op de 1e verdieping van de Centrale OBA, [Oosterdokskade 143](https://www.google.com/maps/place/OBA+library+of+Amsterdam/@52.3756983,4.9082087,15z/data=!4m2!3m1!1s0x0:0x6b97f693e6ecb494?ved=2ahUKEwioo6OrzubgAhWLNOwKHR6KDQgQ_BIwCnoECAYQCA).
 
 
+## Mijn idee
+Ik wil een pagina maken waar je kunt aangeven welk boek je eerder hebt gelezen die je leuk vond en daaruit krijg je suggesties terug van de API van boeken die je misschien ook leuk zou kunnen vinden.
+
+Op de homepagina krijg je een sectie met populair deze week zodat je ook daarop ideeën krijgt te zien.
+
+De data die hiervoor gebruikt kan worden zijn onder andere:
+-   Doelgroep
+-   Auteur
+-   Genre
+-   Publicatie reeks (in welke periode is het uitgebracht)
+-   Taal
+-   Onderwerp
+-   Lengte van het boek
+-   Formaat
