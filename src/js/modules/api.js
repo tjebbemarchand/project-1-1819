@@ -3,7 +3,7 @@ import { saveData, cleanData } from './data.js';
 import state from './state.js';
 
 async function getBooks() {
-    localStorage.clear();
+    // localStorage.clear();
     const api = new API({
         key: "1e19898c87464e239192c8bfe422f280"
     });

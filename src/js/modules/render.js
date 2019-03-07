@@ -8,6 +8,9 @@ function renderHomepage() {
     // <div class="logo"><img src='./assets/img/oba-logo.svg'</div>
     const homepage = `
         <header class="header">
+            <a href="/">
+                <svg class="logo" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 607.09 322.22"><defs><style>.cls-1,.cls-2{fill:#fff;}.cls-2{fill-rule:evenodd;}</style></defs><title>oba-logo-white</title><path class="cls-1" d="M119.53,215.45c0-23.64-15.79-38-38.9-38s-38.92,14.14-38.92,38,15.61,38,38.92,38S119.53,239.33,119.53,215.45ZM0,215.45c0-47.22,31.84-85,80.63-85s80.68,38,80.68,85-31.84,85-80.68,85S0,262.9,0,215.45ZM536,198.9c0,14.46,1.28,46.58,22.16,46.58,11.34,0,16.75-12,16.75-22.3,0-18.57-9.8-35.87-28.85-35.87H536V198.9Zm48-11.34v.64c16.49,10.39,23.12,29.27,23.12,48.54,0,28.58-16.43,54.43-47.45,54.43-53.17,0-54.06-64.19-54.06-103.54-16.82,0-27.52,13.88-27.52,30.16a50.65,50.65,0,0,0,18.66,38.34l-25.91,25.34a98.1,98.1,0,0,1-25-67.48c0-55.07,28.15-69.71,79.34-69.71h78.14v43.28Z"/><path class="cls-2" d="M193.41,0h63.23V135.1h.82c14.33-19.71,38.85-26.81,65-26.81,58.21,0,93.61,52,93.61,108.68,0,61.84-40.31,105.25-100.74,105.25a79.61,79.61,0,0,1-62.86-31.69h-.82v26.94h-58.2V0ZM302.23,266.84c31.85,0,50.56-21,50.56-51.58s-19.1-51.59-50.56-51.59-50.62,20.91-50.62,51.78S270.71,267,302.23,267Z"/></svg>
+            </a>
             <form class="search">
                 <input type="text" placeholder="Zoek op een boek die je leuk vond..." class="search__input">
                 <button type="submit" class="search__submit">Zoek</button>
@@ -28,8 +31,9 @@ function renderHomepage() {
         if(input !== '') {
             renderLoader();
             saveInputData(input);
-            const data = await handleData();
-            renderResults(data);
+            // const data = await handleData();
+            // renderResults(data);
+            renderResults();
         }
     });
 }
@@ -37,14 +41,16 @@ function renderHomepage() {
 function renderResults(books) {
     clearPage();
 
-    const searchedBook = books[0];
-    const results = books.slice(1, books.length - 3);
+    let resultsStorage = localStorage.getItem('results');
+    resultsStorage = JSON.parse(resultsStorage);
+
+    const searchedBook = resultsStorage[0];
+    const results = resultsStorage.slice(1, resultsStorage.length - 3);
 
     const chosenBook = `
         <h2>Als je '${searchedBook.title}' leuk vond.</h2>
         <div class="searched-book">
             <img src="${searchedBook.images.full}">
-            <h3>${searchedBook.title}</h3>
         </div>
         <h2>Dan bevelen wij deze boeken aan...</h2>
     `;
@@ -58,11 +64,90 @@ function renderResults(books) {
         const element = `
             <div class="book-result">
                 <div class="book-result__image">
-                    <img src='${book.images.full}'>
+                    <img data-id="${book.identifiers.isbnId}" src='${book.images.full}'>
                 </div>
             </div>
         `;
         booksContainer.insertAdjacentHTML('afterbegin', element);
+    });
+
+    document.querySelectorAll('.book-result').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            const id = e.srcElement.dataset.id;
+            renderDetails(results, id);
+        });
+    });
+}
+
+function renderPopular() {
+    let popular = localStorage.getItem('popular');
+    popular = JSON.parse(popular);
+
+    const title = document.createElement('h1');
+    title.textContent = 'Populaire boeken deze week';
+    title.classList = 'popular-title';
+    dom.app.appendChild(title);
+
+    const popularSection = document.createElement('section');
+    popularSection.classList = 'popular-section';
+    dom.app.appendChild(popularSection);
+
+    popular.forEach(function(book) {
+        const element = `
+            <div class="book-result">
+                <div class="book-result__image">
+                    <img data-id="${book.identifiers.isbnId}" src='${book.images.full}'>
+                </div>
+            </div>
+        `;
+        popularSection.insertAdjacentHTML('afterbegin', element);
+    });
+
+    document.querySelectorAll('.book-result').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            const id = e.srcElement.dataset.id;
+            renderDetails(popular, id);
+        });
+    });
+}
+
+function renderDetails(books, id) {
+    const book = books.find(function (book) {
+        return book.identifiers.isbnId === id;
+    });
+
+    const popup = `
+        <div class="popup">
+            <div class="popup__content">
+                <div class="popup__left">
+                    <img class="popup__image" src="${book.images.full}">
+                </div>
+                <div class="popup__right">
+                    <a href="#" class="popup__close">&times;</a>
+                    <span class="popup__like">&hearts;</span>
+                    <h3 class="popup__title">${book.title}</h3>
+                    <h4 class="popup__author">${book.author.fullname ? book.author.fullname : book.author.firstname}</h4>
+                    <p class="popup__summary">${book.summary ? book.summary : ''}</p>
+                    <uL class="popup__details">
+                        <li>Genre: ${book.genre ? book.genre : 'niet bekend'}</li>
+                        <li>Taal: ${book.languages ? book.languages : 'niet bekend'}</li>
+                        <li>Uitgebracht: ${book.publication.publisher ? book.publication.publisher : 'niet bekend'}</li>
+                        <li>Jaar uitgebracht: ${book.publication.year ? book.publication.year : 'niet bekend'}</li>
+                    </uL>
+                </div>
+            </div>
+        </div>
+    `;
+
+    dom.app.insertAdjacentHTML('beforeend', popup);
+
+    document.querySelector('.popup__close').addEventListener('click', function(e) {
+        var elem = document.querySelector('.popup');
+        elem.parentNode.removeChild(elem);
+    });
+
+    document.querySelector('.popup__like').addEventListener('click', function() {
+        this.style.color = '#EB1F25';
     });
 }
 
@@ -87,5 +172,6 @@ function renderLoader() {
 
 export {
     renderHomepage,
+    renderPopular,
     renderResults
 };

@@ -2,7 +2,7 @@ import { getBooks } from './api.js';
 import state from './state.js';
 
 async function handleData() {
-    localStorage.clear();
+    // localStorage.clear();
     let localStorageData = localStorage.getItem('oba');
     localStorageData = JSON.parse(localStorageData);
 
@@ -50,7 +50,7 @@ function saveInputData(input) {
 }
 
 function saveData(data) {
-    localStorage.setItem('oba', JSON.stringify(data));
+    localStorage.setItem('results', JSON.stringify(data));
 }
 
 export {
