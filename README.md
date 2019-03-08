@@ -13,7 +13,7 @@ A single page web application search for recommended books, based of books you a
 7.  [Future functionality?](#7-Future-functionality?)
 
 ## 1. Live demo link
-LINK
+[Link to Recommended books OBA](http://oba-recommended.tjebbemarchand.nl/)
 
 ## 2. Concept
 A concept where you can find a book you have read that you like, the app finds recommended books you also will like.
@@ -41,9 +41,9 @@ The meta data it searches for is:
 Some of this data is missing in the API. So the app / concept can do a better job if it has that data available.
 
 ## 5. Design
-![Homepage](./assets/img/homepage.jpg)
-![Popup](./assets/img/popup.jpg)
-![Results](./assets/img/results.jpg)
+![Homepage](assets/img/homepage.jpeg)
+![Popup](assets/img/popup.jpeg)
+![Results](assets/img/results.jpeg)
 
 First there is a header section where the search bar is located. That is the main function of the app. Below you will find the popular books of the week.
 
