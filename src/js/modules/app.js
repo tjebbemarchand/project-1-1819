@@ -14,7 +14,7 @@ const state = {
 function init() {
     // setupRoutes();
     renderHomepage();
-    renderPopular();
+    // renderPopular();
 }
 
 export { dom, state, init };

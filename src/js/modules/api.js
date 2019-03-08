@@ -14,14 +14,12 @@ async function getBooks() {
 
     const iterator = await api.createIterator(`search/${state.searchQuery}&facet=type(book)&librarian=true`);
     for await (const response of iterator) {
-        const data = response.map(function(item) {
-            return cleanData(item);
-        });
+        // const data = response.map(function(item) {
+        //     return cleanData(item);
+        // });
 
-        console.log(data);
-
-        saveData(data);
-        return data;
+        // saveData(data);
+        return response;
     }
 }
     

@@ -1,11 +1,8 @@
 import { dom } from './app.js';
 import { handleData, saveInputData } from './data.js';
-import { limitBookTitle } from './utilities.js';
-import { state } from './app.js';
 
 function renderHomepage() {
     clearPage();
-    // <div class="logo"><img src='./assets/img/oba-logo.svg'</div>
     const homepage = `
         <header class="header">
             <a href="/">
@@ -31,9 +28,9 @@ function renderHomepage() {
         if(input !== '') {
             renderLoader();
             saveInputData(input);
-            // const data = await handleData();
-            // renderResults(data);
-            renderResults();
+            const data = await handleData();
+            renderResults(data);
+            // renderResults();
         }
     });
 }
@@ -41,16 +38,13 @@ function renderHomepage() {
 function renderResults(books) {
     clearPage();
 
-    let resultsStorage = localStorage.getItem('results');
-    resultsStorage = JSON.parse(resultsStorage);
-
-    const searchedBook = resultsStorage[0];
-    const results = resultsStorage.slice(1, resultsStorage.length - 3);
+    const searchedBook = books[0];
+    const results = books.slice(1, books.length - 3);
 
     const chosenBook = `
-        <h2>Als je '${searchedBook.title}' leuk vond.</h2>
+        <h2>Als je '${searchedBook.titles["other-title"]._text}' leuk vond.</h2>
         <div class="searched-book">
-            <img src="${searchedBook.images.full}">
+            <img src="${searchedBook.coverimages.coverimage[1]._text}">
         </div>
         <h2>Dan bevelen wij deze boeken aan...</h2>
     `;
@@ -64,7 +58,7 @@ function renderResults(books) {
         const element = `
             <div class="book-result">
                 <div class="book-result__image">
-                    <img data-id="${book.identifiers.isbnId}" src='${book.images.full}'>
+                    <img data-id="${book.identifiers["isbn-id"] ? book.identifiers["isbn-id"]._text : undefined}" src='${book.coverimages.coverimage[1]._text}'>
                 </div>
             </div>
         `;
@@ -112,27 +106,26 @@ function renderPopular() {
 }
 
 function renderDetails(books, id) {
-    const book = books.find(function (book) {
-        return book.identifiers.isbnId === id;
+    const popupBook = books.find(function (book) {
+        return true
     });
 
     const popup = `
         <div class="popup">
             <div class="popup__content">
                 <div class="popup__left">
-                    <img class="popup__image" src="${book.images.full}">
+                    <img class="popup__image" src="${popupBook.coverimages.coverimage[1]._text}">
                 </div>
                 <div class="popup__right">
                     <a href="#" class="popup__close">&times;</a>
                     <span class="popup__like">&hearts;</span>
-                    <h3 class="popup__title">${book.title}</h3>
-                    <h4 class="popup__author">${book.author.fullname ? book.author.fullname : book.author.firstname}</h4>
-                    <p class="popup__summary">${book.summary ? book.summary : ''}</p>
+                    <h3 class="popup__title">${popupBook.titles.title._text}</h3>
+                    <h4 class="popup__author">${popupBook.authors ? popupBook.authors.author._text : 'niet bekend'}</h4>
+                    <p class="popup__summary">${popupBook.summaries ? popupBook.summaries.summary._text : ''}</p>
                     <uL class="popup__details">
-                        <li>Genre: ${book.genre ? book.genre : 'niet bekend'}</li>
-                        <li>Taal: ${book.languages ? book.languages : 'niet bekend'}</li>
-                        <li>Uitgebracht: ${book.publication.publisher ? book.publication.publisher : 'niet bekend'}</li>
-                        <li>Jaar uitgebracht: ${book.publication.year ? book.publication.year : 'niet bekend'}</li>
+                        <li>Taal: ${popupBook.languages ? popupBook.languages.language._text : 'niet bekend'}</li>
+                        <li>Uitgebracht: ${popupBook.publication && popupBook.publication.publisher && popupBook.publication.publisher._text ? popupBook.publication.publisher._text : 'niet bekend'}</li>
+                        <li>Jaar uitgebracht: ${popupBook.publication ? popupBook.publication.year._text : 'niet bekend'}</li>
                     </uL>
                 </div>
             </div>

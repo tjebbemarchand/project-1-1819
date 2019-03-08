@@ -19,22 +19,22 @@ async function handleData() {
 function cleanData(item) {
     return {
         author: {
-            fullname: item.author ? item.author.fullname : undefined,
-            firstname: item.author ? item.author.firstname : undefined,
-            lastname: item.author ? item.author.lastname : undefined
+            fullname: item.author && item.author.fullname ? item.author.fullname : undefined,
+            firstname: item.author && item.author.firstname ? item.author.firstname : undefined,
+            lastname: item.author && item.author.lastname ? item.author.lastname : undefined
         },
         format: item.format ? item.format : undefined,
         identifiers: {
-            isbnId: item.identifiers ? item.identifiers[1]["isbn-id"] : undefined
+            isbnId: item.identifiers && item.identifiers[1] ? item.identifiers[1]["isbn-id"] : undefined
         },
         images: {
-            small: item.images ? item.images[0] : undefined,
-            full: item.images ? item.images[1] : undefined
+            small: item.images && item.images[0] ? item.images[0] : undefined,
+            full: item.images && item.images[1] ? item.images[1] : undefined
         },
         languages: item.original ? item.original : undefined,
         publication: {
-            publisher: item.publication ? item.publication.publisher : undefined,
-            year: item.publication ? item.publication.year : undefined
+            publisher: item.publication && item.publication.publisher ? item.publication.publisher : undefined,
+            year: item.publication && item.publication.year ? item.publication.year : undefined
         },
         series: item.series ? item.series : undefined,
         genre: item.genres ? item.genres : undefined,
